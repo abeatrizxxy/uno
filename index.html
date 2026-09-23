@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Truco das Amigas</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="inicio">
+
+        <div class="logo">🃏</div>
+
+        <h1>TRUCO DAS AMIGAS</h1>
+
+        <p>
+            Crie uma sala e chame suas amigas para jogar!
+        </p>
+
+        <div class="card">
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Digite seu nome"
+                maxlength="20"
+            >
+
+            <button onclick="criarSala()">
+                🎮 Criar sala
+            </button>
+
+            <div class="separador">
+                OU
+            </div>
+
+            <input
+                type="text"
+                id="codigoSala"
+                placeholder="Digite o código da sala"
+                maxlength="6"
+            >
+
+            <button
+                class="entrar"
+                onclick="entrarSala()"
+            >
+                🚪 Entrar na sala
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="config.js"></script>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

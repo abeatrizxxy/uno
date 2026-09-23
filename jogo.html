@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Truco das Amigas</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body class="mesa">
+
+
+    <main class="mesa-jogo">
+
+
+        <!-- =================================
+             JOGADORA 1
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-topo"
+        >
+
+            <span id="jogadora1">
+                Aguardando...
+            </span>
+
+            <strong class="time-1">
+                🔴 TRIO 1
+            </strong>
+
+            <div class="cartas-viradas">
+                🂠 🂠 🂠
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             JOGADORA 2
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-esquerda"
+        >
+
+            <span id="jogadora2">
+                Aguardando...
+            </span>
+
+            <strong class="time-2">
+                🔵 TRIO 2
+            </strong>
+
+            <div class="cartas-viradas">
+                🂠 🂠 🂠
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             JOGADORA 3
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-direita"
+        >
+
+            <span id="jogadora3">
+                Aguardando...
+            </span>
+
+            <strong class="time-1">
+                🔴 TRIO 1
+            </strong>
+
+            <div class="cartas-viradas">
+                🂠 🂠 🂠
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             CENTRO DA MESA
+        ================================== -->
+
+        <div class="centro">
+
+
+            <!-- =============================
+                 PLACAR
+            ============================== -->
+
+            <div class="placar">
+
+
+                <div>
+
+                    🔴 TRIO 1
+
+                    <strong id="pontosTrio1">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    🔵 TRIO 2
+
+                    <strong id="pontosTrio2">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =============================
+                 VIRA E MANILHA
+            ============================== -->
+
+            <div
+                id="vira"
+                class="vira"
+            >
+
+                <!-- O JavaScript
+                     coloca a vira aqui -->
+
+            </div>
+
+
+            <!-- =============================
+                 STATUS DA MÃO
+            ============================== -->
+
+            <p
+                id="statusMao"
+                class="status-mao"
+            >
+                Preparando partida...
+            </p>
+
+
+            <!-- =============================
+                 CARTAS NA MESA
+            ============================== -->
+
+            <div
+                class="cartas-mesa"
+                id="cartasMesa"
+            >
+
+                <span>
+                    🃏
+                </span>
+
+            </div>
+
+
+            <!-- =============================
+                 VEZ DO JOGADOR
+            ============================== -->
+
+            <p id="vez">
+                Aguardando partida...
+            </p>
+
+
+            <!-- =============================
+                 BOTÕES DO TRUCO
+            ============================== -->
+
+            <div
+                id="acoesTruco"
+                class="acoes-truco"
+            >
+
+                <!-- Os botões são criados
+                     automaticamente pelo jogo.js -->
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================
+             JOGADORA 4
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-baixo-esquerda"
+        >
+
+            <span id="jogadora4">
+                Aguardando...
+            </span>
+
+            <strong class="time-2">
+                🔵 TRIO 2
+            </strong>
+
+            <div class="cartas-viradas">
+                🂠 🂠 🂠
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             JOGADORA 5
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-baixo"
+        >
+
+            <span id="jogadora5">
+                Você
+            </span>
+
+            <strong class="time-1">
+                🔴 TRIO 1
+            </strong>
+
+
+            <!--
+                A mão do jogador será
+                preenchida automaticamente
+                pelo jogo.js.
+            -->
+
+            <div
+                class="minhas-cartas"
+                id="minhasCartas"
+            ></div>
+
+
+        </div>
+
+
+        <!-- =================================
+             JOGADORA 6
+        ================================== -->
+
+        <div
+            class="jogadora jogadora-baixo-direita"
+        >
+
+            <span id="jogadora6">
+                Aguardando...
+            </span>
+
+            <strong class="time-2">
+                🔵 TRIO 2
+            </strong>
+
+            <div class="cartas-viradas">
+                🂠 🂠 🂠
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- =====================================
+         SUPABASE
+    ====================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- =====================================
+         CONFIGURAÇÃO DO SUPABASE
+    ====================================== -->
+
+    <script
+        src="config.js"
+    ></script>
+
+
+    <!-- =====================================
+         LÓGICA DO JOGO
+    ====================================== -->
+
+    <script
+        src="jogo.js"
+    ></script>
+
+
+</body>
+
+</html>
