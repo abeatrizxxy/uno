@@ -10,31 +10,52 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Sala - Truco das Amigas</title>
+    <title>
+        Sala - Truco das Amigas
+    </title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
+
 
 <body>
 
     <main class="inicio">
 
-        <div class="logo">🃏</div>
+        <div class="logo">
+            🃏
+        </div>
 
-        <h1>TRUCO DAS AMIGAS</h1>
+
+        <h1>
+            TRUCO DAS AMIGAS
+        </h1>
 
 
         <div class="card">
+
+
+            <!-- =========================
+                 CÓDIGO DA SALA
+            ========================== -->
 
             <p>
                 Código da sala:
             </p>
 
-            <h2 id="codigo"></h2>
+
+            <h2 id="codigo">
+            ---
+            </h2>
 
 
-            <button onclick="copiarCodigo()">
+            <button
+                onclick="copiarCodigo()"
+            >
                 📋 Copiar código
             </button>
 
@@ -42,6 +63,10 @@
             <br>
             <br>
 
+
+            <!-- =========================
+                 QUANTIDADE
+            ========================== -->
 
             <p id="quantidade">
                 0/6 jogadoras
@@ -51,12 +76,17 @@
             <hr>
 
 
+            <!-- =========================
+                 ESCOLHER TRIO
+            ========================== -->
+
             <h2>
                 Escolha seu trio
             </h2>
 
 
             <div id="escolhaTrio">
+
 
                 <button
                     onclick="escolherTrio(1)"
@@ -75,6 +105,7 @@
                     🔵 Entrar no Trio 2
                 </button>
 
+
             </div>
 
 
@@ -83,6 +114,10 @@
 
             <hr>
 
+
+            <!-- =========================
+                 TRIO 1
+            ========================== -->
 
             <h2>
                 🔴 TRIO 1
@@ -101,6 +136,10 @@
             <br>
 
 
+            <!-- =========================
+                 TRIO 2
+            ========================== -->
+
             <h2>
                 🔵 TRIO 2
             </h2>
@@ -118,6 +157,10 @@
             <br>
 
 
+            <!-- =========================
+                 COMEÇAR
+            ========================== -->
+
             <button
                 id="botaoComecar"
                 onclick="comecarJogo()"
@@ -126,16 +169,38 @@
                 Aguardando 3 × 3
             </button>
 
+
         </div>
 
     </main>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ===============================
+         SUPABASE
+    ================================ -->
 
-    <script src="config.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
-    <script src="sala.js"></script>
+
+    <!-- ===============================
+         CONFIGURAÇÃO
+    ================================ -->
+
+    <script
+        src="config.js"
+    ></script>
+
+
+    <!-- ===============================
+         SALA
+    ================================ -->
+
+    <script
+        src="sala.js"
+    ></script>
+
 
 </body>
 

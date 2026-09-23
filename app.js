@@ -16,6 +16,7 @@ function gerarCodigo() {
                 Math.random() * caracteres.length
             )
         );
+
     }
 
     return codigo;
@@ -29,10 +30,10 @@ function gerarCodigo() {
 async function criarSala() {
 
     const nome =
-        document
-            .getElementById("nome")
+        document.getElementById("nome")
             .value
             .trim();
+
 
     if (!nome) {
 
@@ -41,45 +42,78 @@ async function criarSala() {
         return;
     }
 
-    const codigo = gerarCodigo();
 
-    const jogadorId = crypto.randomUUID();
+    // Gera o código
+    const codigo =
+        gerarCodigo();
 
+
+    // Gera ID do jogador
+    const jogadorId =
+        crypto.randomUUID();
+
+
+    console.log(
+        "Código gerado:",
+        codigo
+    );
+
+
+    // ====================================
+    // SALVAR NO SUPABASE
+    // ====================================
 
     const { error } =
         await supabaseClient
             .from("partidas_truco")
             .insert({
 
-                codigo_sala: codigo,
+                codigo_sala:
+                    codigo,
 
-                jogador_id: jogadorId,
+                jogador_id:
+                    jogadorId,
 
-                nome_jogador: nome,
+                nome_jogador:
+                    nome,
 
-                trio: 0,
+                trio:
+                    0,
 
-                cartas: [],
+                cartas:
+                    [],
 
-                pontos: 0,
+                pontos:
+                    0,
 
-                turno: false,
+                turno:
+                    false,
 
-                status: "aguardando"
+                status:
+                    "aguardando"
+
             });
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Erro ao criar sala:",
+            error
+        );
 
         alert(
-            "Não foi possível criar a sala."
+            "Erro ao criar a sala.\n\n" +
+            error.message
         );
 
         return;
     }
 
+
+    // ====================================
+    // SALVAR NO NAVEGADOR
+    // ====================================
 
     localStorage.setItem(
         "jogadorId",
@@ -97,26 +131,37 @@ async function criarSala() {
     );
 
 
+    console.log(
+        "Sala criada:",
+        codigo
+    );
+
+
+    // ====================================
+    // IR PARA A SALA
+    // ENVIA O CÓDIGO PELA URL
+    // ====================================
+
     window.location.href =
-        "sala.html";
+        "sala.html?codigo=" +
+        encodeURIComponent(codigo);
 }
 
 
 // ========================================
-// ENTRAR NA SALA
+// ENTRAR EM UMA SALA
 // ========================================
 
 async function entrarSala() {
 
     const nome =
-        document
-            .getElementById("nome")
+        document.getElementById("nome")
             .value
             .trim();
 
+
     const codigo =
-        document
-            .getElementById("codigoSala")
+        document.getElementById("codigoSala")
             .value
             .trim()
             .toUpperCase();
@@ -140,6 +185,10 @@ async function entrarSala() {
     }
 
 
+    // ====================================
+    // PROCURAR SALA
+    // ====================================
+
     const { data, error } =
         await supabaseClient
             .from("partidas_truco")
@@ -152,17 +201,24 @@ async function entrarSala() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Erro ao procurar sala:",
+            error
+        );
 
         alert(
-            "Erro ao procurar a sala."
+            "Erro ao procurar a sala.\n\n" +
+            error.message
         );
 
         return;
     }
 
 
-    if (data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         alert(
             "Sala não encontrada!"
@@ -171,6 +227,10 @@ async function entrarSala() {
         return;
     }
 
+
+    // ====================================
+    // VERIFICAR LIMITE
+    // ====================================
 
     if (data.length >= 6) {
 
@@ -182,6 +242,10 @@ async function entrarSala() {
     }
 
 
+    // ====================================
+    // CRIAR JOGADOR
+    // ====================================
+
     const jogadorId =
         crypto.randomUUID();
 
@@ -191,35 +255,52 @@ async function entrarSala() {
             .from("partidas_truco")
             .insert({
 
-                codigo_sala: codigo,
+                codigo_sala:
+                    codigo,
 
-                jogador_id: jogadorId,
+                jogador_id:
+                    jogadorId,
 
-                nome_jogador: nome,
+                nome_jogador:
+                    nome,
 
-                trio: 0,
+                trio:
+                    0,
 
-                cartas: [],
+                cartas:
+                    [],
 
-                pontos: 0,
+                pontos:
+                    0,
 
-                turno: false,
+                turno:
+                    false,
 
-                status: "aguardando"
+                status:
+                    "aguardando"
+
             });
 
 
     if (erroEntrada) {
 
-        console.error(erroEntrada);
+        console.error(
+            "Erro ao entrar:",
+            erroEntrada
+        );
 
         alert(
-            "Não foi possível entrar na sala."
+            "Não foi possível entrar na sala.\n\n" +
+            erroEntrada.message
         );
 
         return;
     }
 
+
+    // ====================================
+    // SALVAR DADOS
+    // ====================================
 
     localStorage.setItem(
         "jogadorId",
@@ -237,6 +318,11 @@ async function entrarSala() {
     );
 
 
+    // ====================================
+    // IR PARA A SALA
+    // ====================================
+
     window.location.href =
-        "sala.html";
+        "sala.html?codigo=" +
+        encodeURIComponent(codigo);
 }

@@ -1,22 +1,93 @@
-const nome =
-    localStorage.getItem("nomeJogador");
+// ========================================
+// PEGAR ELEMENTOS DA PÁGINA
+// ========================================
 
-const codigo =
-    localStorage.getItem("codigoSala");
+const elementoCodigo =
+    document.getElementById("codigo");
+
+const elementoQuantidade =
+    document.getElementById("quantidade");
+
+
+// ========================================
+// PEGAR CÓDIGO DA URL
+// ========================================
+
+const url =
+    new URL(window.location.href);
+
+let codigo =
+    url.searchParams.get("codigo");
+
+
+// ========================================
+// PEGAR CÓDIGO DO LOCALSTORAGE
+// CASO NÃO ESTEJA NA URL
+// ========================================
+
+if (!codigo) {
+
+    codigo =
+        localStorage.getItem("codigoSala");
+
+}
+
+
+// ========================================
+// PEGAR DADOS DO JOGADOR
+// ========================================
 
 const jogadorId =
     localStorage.getItem("jogadorId");
 
-
-document.getElementById("codigo")
-    .textContent = codigo;
+const nome =
+    localStorage.getItem("nomeJogador");
 
 
 // ========================================
-// CARREGAR JOGADORES
+// VERIFICAR CÓDIGO
+// ========================================
+
+console.log(
+    "Código encontrado:",
+    codigo
+);
+
+
+if (!codigo) {
+
+    elementoCodigo.textContent =
+        "ERRO";
+
+    alert(
+        "O código da sala não foi encontrado."
+    );
+
+} else {
+
+    // Mostrar código imediatamente
+    elementoCodigo.textContent =
+        codigo;
+
+    // Salvar novamente
+    localStorage.setItem(
+        "codigoSala",
+        codigo
+    );
+
+}
+
+
+// ========================================
+// CARREGAR JOGADORAS
 // ========================================
 
 async function carregarJogadoras() {
+
+    if (!codigo) {
+        return;
+    }
+
 
     const { data, error } =
         await supabaseClient
@@ -36,102 +107,132 @@ async function carregarJogadoras() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "ERRO SUPABASE:",
+            error
+        );
+
+        elementoQuantidade.textContent =
+            "Erro ao carregar sala";
 
         return;
     }
 
 
+    const jogadores =
+        data || [];
+
+
+    // ====================================
+    // QUANTIDADE
+    // ====================================
+
+    elementoQuantidade.textContent =
+        `${jogadores.length}/6 jogadoras`;
+
+
+    // ====================================
+    // TRIO 1
+    // ====================================
+
     const trio1 =
-        data.filter(
+        jogadores.filter(
             jogador =>
                 jogador.trio === 1
         );
 
 
-    const trio2 =
-        data.filter(
-            jogador =>
-                jogador.trio === 2
+    const elementoTrio1 =
+        document.getElementById(
+            "trio1"
         );
 
 
-    // ========================================
-    // TRIO 1
-    // ========================================
-
-    const elementoTrio1 =
-        document.getElementById("trio1");
-
     elementoTrio1.innerHTML = "";
-
-
-    trio1.forEach(jogador => {
-
-        const p =
-            document.createElement("p");
-
-        p.textContent =
-            🔴 ${jogador.nome_jogador};
-
-        elementoTrio1.appendChild(p);
-
-    });
 
 
     if (trio1.length === 0) {
 
         elementoTrio1.innerHTML =
             "<p>Aguardando jogadoras...</p>";
+
+    } else {
+
+        trio1.forEach(
+            jogador => {
+
+                const p =
+                    document.createElement(
+                        "p"
+                    );
+
+                p.textContent =
+                    `🔴 ${jogador.nome_jogador}`;
+
+                elementoTrio1.appendChild(
+                    p
+                );
+
+            }
+        );
+
     }
 
 
-    // ========================================
+    // ====================================
     // TRIO 2
-    // ========================================
+    // ====================================
+
+    const trio2 =
+        jogadores.filter(
+            jogador =>
+                jogador.trio === 2
+        );
+
 
     const elementoTrio2 =
-        document.getElementById("trio2");
+        document.getElementById(
+            "trio2"
+        );
+
 
     elementoTrio2.innerHTML = "";
-
-
-    trio2.forEach(jogador => {
-
-        const p =
-            document.createElement("p");
-
-        p.textContent =
-            🔵 ${jogador.nome_jogador};
-
-        elementoTrio2.appendChild(p);
-
-    });
 
 
     if (trio2.length === 0) {
 
         elementoTrio2.innerHTML =
             "<p>Aguardando jogadoras...</p>";
+
+    } else {
+
+        trio2.forEach(
+            jogador => {
+
+                const p =
+                    document.createElement(
+                        "p"
+                    );
+
+                p.textContent =
+                    `🔵 ${jogador.nome_jogador}`;
+
+                elementoTrio2.appendChild(
+                    p
+                );
+
+            }
+        );
+
     }
 
 
-    // ========================================
-    // QUANTIDADE
-    // ========================================
-
-    document.getElementById(
-        "quantidade"
-    ).textContent =
-        ${data.length}/6 jogadoras;
-
-
-    // ========================================
-    // MEU TRIO
-    // ========================================
+    // ====================================
+    // ENCONTRAR VOCÊ
+    // ====================================
 
     const eu =
-        data.find(
+        jogadores.find(
             jogador =>
                 jogador.jogador_id ===
                 jogadorId
@@ -149,23 +250,22 @@ async function carregarJogadoras() {
         meuTrio.textContent =
             "Você está no 🔴 Trio 1";
 
-    }
-    else if (eu && eu.trio === 2) {
+    } else if (eu && eu.trio === 2) {
 
         meuTrio.textContent =
             "Você está no 🔵 Trio 2";
 
-    }
-    else {
+    } else {
 
         meuTrio.textContent =
             "Você ainda não escolheu um trio.";
+
     }
 
 
-    // ========================================
-    // ESCOLHA DO TRIO
-    // ========================================
+    // ====================================
+    // MOSTRAR/ESCONDER ESCOLHA
+    // ====================================
 
     const escolhaTrio =
         document.getElementById(
@@ -173,22 +273,25 @@ async function carregarJogadoras() {
         );
 
 
-    if (eu && eu.trio !== 0) {
+    if (
+        eu &&
+        eu.trio !== 0
+    ) {
 
         escolhaTrio.style.display =
             "none";
 
-    }
-    else {
+    } else {
 
         escolhaTrio.style.display =
             "block";
+
     }
 
 
-    // ========================================
+    // ====================================
     // BOTÃO COMEÇAR
-    // ========================================
+    // ====================================
 
     const botao =
         document.getElementById(
@@ -201,19 +304,22 @@ async function carregarJogadoras() {
         trio2.length === 3
     ) {
 
-        botao.disabled = false;
+        botao.disabled =
+            false;
 
         botao.textContent =
             "🎮 Começar partida";
 
-    }
-    else {
+    } else {
 
-        botao.disabled = true;
+        botao.disabled =
+            true;
 
         botao.textContent =
             "Aguardando 3 × 3";
+
     }
+
 }
 
 
@@ -269,7 +375,8 @@ async function escolherTrio(
         await supabaseClient
             .from("partidas_truco")
             .update({
-                trio: trioEscolhido
+                trio:
+                    trioEscolhido
             })
             .eq(
                 "jogador_id",
@@ -292,6 +399,7 @@ async function escolherTrio(
 
 
     carregarJogadoras();
+
 }
 
 
@@ -299,15 +407,58 @@ async function escolherTrio(
 // COPIAR CÓDIGO
 // ========================================
 
-function copiarCodigo() {
+async function copiarCodigo() {
 
-    navigator.clipboard.writeText(
-        codigo
-    );
+    if (!codigo) {
 
-    alert(
-        "Código da sala copiado! 🃏"
-    );
+        alert(
+            "Código da sala não encontrado!"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            codigo
+        );
+
+        alert(
+            `Código ${codigo} copiado! 🃏`
+        );
+
+    } catch (erro) {
+
+        const campo =
+            document.createElement(
+                "textarea"
+            );
+
+        campo.value =
+            codigo;
+
+        document.body.appendChild(
+            campo
+        );
+
+        campo.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        document.body.removeChild(
+            campo
+        );
+
+        alert(
+            `Código ${codigo} copiado! 🃏`
+        );
+
+    }
+
 }
 
 
@@ -364,6 +515,7 @@ async function comecarJogo() {
 
     window.location.href =
         "jogo.html";
+
 }
 
 
@@ -371,26 +523,34 @@ async function comecarJogo() {
 // TEMPO REAL
 // ========================================
 
-supabaseClient
-    .channel(
-        "sala-" + codigo
-    )
-    .on(
-        "postgres_changes",
-        {
-            event: "*",
-            schema: "public",
-            table: "partidas_truco",
-            filter:
-                codigo_sala=eq.${codigo}
-        },
-        () => {
+if (codigo) {
 
-            carregarJogadoras();
+    supabaseClient
+        .channel(
+            "sala-" + codigo
+        )
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
 
-        }
-    )
-    .subscribe();
+                schema: "public",
+
+                table: "partidas_truco",
+
+                filter:
+                    `codigo_sala=eq.${codigo}`
+            },
+
+            () => {
+
+                carregarJogadoras();
+
+            }
+        )
+        .subscribe();
+
+}
 
 
 // ========================================
